@@ -1,9 +1,11 @@
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState({});
+  const navigate = useNavigate();
 
   function handleUsernameChange(value) {
     setUsername(value);
@@ -13,14 +15,36 @@ function Login() {
     setPassword(value);
   }
 
-  function login(e) {
+  async function login(e) {
     e.preventDefault();
-    console.log(username, password);
+
+    try {
+      console.log('logging in');
+      const response = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ username, password }),
+      });
+      const responseData = await response.json();
+      if (responseData.usernameError || responseData.passwordError) {
+        setLoginError(responseData);
+      } else {
+        console.log(responseData);
+        setLoginError({});
+        navigate('/');
+      }
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return (
     <>
       <form action='post' onSubmit={login}>
+        {loginError.usernameError && <div>*{loginError.usernameError}</div>}
         <label htmlFor='username'>Username:</label>
         <input
           type='text'
@@ -28,8 +52,9 @@ function Login() {
           id='username'
           value={username}
           onChange={(e) => handleUsernameChange(e.target.value)}
+          required
         />
-
+        {loginError.passwordError && <div>*{loginError.passwordError}</div>}
         <label htmlFor='password'>Password:</label>
         <input
           type='password'
@@ -37,6 +62,7 @@ function Login() {
           id='password'
           value={password}
           onChange={(e) => handlePasswordChange(e.target.value)}
+          required
         />
 
         <button>Login</button>

@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Signup() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [signupError, setSignUpError] = useState({});
+  const navigate = useNavigate();
 
   function handleUsernameChange(value) {
     setUsername(value);
@@ -18,14 +20,44 @@ function Signup() {
     setConfirmPassword(value);
   }
 
-  function signup(e) {
+  async function signup(e) {
     e.preventDefault();
-    console.log(username, password, confirmPassword);
+
+    try {
+      const response = await fetch('http://localhost:3000/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({ username, password, confirmPassword }),
+      });
+
+      const responseData = await response.json();
+      if (
+        responseData.usernameError ||
+        responseData.passwordError ||
+        responseData.confirmPasswordError
+      ) {
+        setSignUpError(responseData);
+        setPassword('');
+        setConfirmPassword('');
+      } else {
+        setUsername('');
+        setPassword('');
+        setConfirmPassword('');
+        setSignUpError({});
+        navigate('/');
+      }
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   return (
     <>
       <form action='post' onSubmit={signup}>
+        {signupError.usernameError && <div>*{signupError.usernameError}</div>}
         <label htmlFor='username'>Username:</label>
         <input
           type='text'
@@ -33,7 +65,9 @@ function Signup() {
           id='username'
           value={username}
           onChange={(e) => handleUsernameChange(e.target.value)}
+          required
         />
+        {signupError.passwordError && <div>*{signupError.passwordError}</div>}
         <label htmlFor='password'>Password:</label>
         <input
           type='password'
@@ -41,10 +75,14 @@ function Signup() {
           id='password'
           value={password}
           onChange={(e) => handlePasswordChange(e.target.value)}
+          required
         />
+        {signupError.confirmPasswordError && (
+          <div>*{signupError.confirmPasswordError}</div>
+        )}
         <label htmlFor='confirmPassword'>Confirm Password:</label>
         <input
-          type='confirmPassword'
+          type='password'
           name='confirmPassword'
           id='confirmPassword'
           value={confirmPassword}
