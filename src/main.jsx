@@ -24,23 +24,25 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       {
-        path: '/folder',
+        path: 'folder/:folderId',
         element: <Folder />,
-        children: [],
       },
       {
-        path: '/file',
+        path: 'folder/:folderId/:fileId',
         element: <File />,
-        children: [],
+      },
+      {
+        path: 'file/:fileId',
+        element: <File />,
       },
     ],
   },
   {
-    path: '/login',
+    path: 'login',
     element: <Login />,
   },
   {
-    path: '/signup',
+    path: 'signup',
     element: <Signup />,
   },
 ]);
