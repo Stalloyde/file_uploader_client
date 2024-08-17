@@ -5,12 +5,12 @@ function Folder() {
   const [filesInTargetFolder, setFilesInTargetFolder] = useState([]);
   const [targetFolder, setTargetFolder] = useState({});
   const navigate = useNavigate();
-  const targetFolderId = useParams();
+  const { folderId } = useParams();
 
   useEffect(() => {
     async function getTargetFolderAndFiles() {
       const response = await fetch(
-        `http://localhost:3000/folders/${targetFolderId.folderId}`,
+        `http://localhost:3000/folders/${folderId}`,
         {
           credentials: 'include',
         },
@@ -28,7 +28,7 @@ function Folder() {
     }
 
     getTargetFolderAndFiles();
-  }, [targetFolderId]);
+  }, [folderId]);
 
   return (
     <>
@@ -38,9 +38,7 @@ function Folder() {
       <ul>
         {filesInTargetFolder.map((file) => (
           <li key={file.id} id={file.id}>
-            <Link to={`/folder/${targetFolderId.folderId}/${file.id}`}>
-              {file.fileName}
-            </Link>
+            <Link to={`/folder/${folderId}/${file.id}`}>{file.fileName}</Link>
           </li>
         ))}
       </ul>
