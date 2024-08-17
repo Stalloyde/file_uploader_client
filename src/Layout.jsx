@@ -4,10 +4,12 @@ import { Outlet, useNavigate, Link } from 'react-router-dom';
 function Layout() {
   const [allFolders, setAllFolders] = useState([]);
   const [isCreatingFolder, setIsCreatingFolder] = useState(false);
+  const [errorMessage, setErrorMessage] = useState([]);
+  const [newFolderName, setNewFolderName] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function getAllFolders() {
+  async function getAllFolders() {
+    try {
       const response = await fetch('http://localhost:3000/folders', {
         credentials: 'include',
       });
@@ -19,20 +21,54 @@ function Layout() {
 
       const responseData = await response.json();
       setAllFolders(responseData);
+    } catch (err) {
+      console.error(err);
     }
+  }
 
+  useEffect(() => {
     getAllFolders();
   }, []);
 
   function handleCreatingFolderInput() {
     setIsCreatingFolder(!isCreatingFolder);
+    setErrorMessage('');
   }
 
-  function createNewFolder() {
-    alert('Create new folder!!'); //WIP
-    setIsCreatingFolder(!isCreatingFolder);
+  function handleInputChange(e) {
+    setNewFolderName(e.target.value);
   }
 
+  async function createNewFolder(e) {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:3000/folders/create', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({ newFolderName }),
+      });
+      if (response.status === 401) navigate('/login');
+      if (!response.ok)
+        throw new Error(
+          `This is an HTTP error: The status is ${response.status}`,
+        );
+
+      const responseData = await response.json();
+
+      if (responseData.errors) {
+        setErrorMessage(responseData.errors);
+      } else {
+        setIsCreatingFolder(!isCreatingFolder);
+        getAllFolders();
+        setErrorMessage('');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
   return (
     <>
       <section>
@@ -41,18 +77,21 @@ function Layout() {
           <h2>Folders</h2>
           <button onClick={handleCreatingFolderInput}>Create New Folder</button>
           {isCreatingFolder ? (
-            <form method='POST' onSubmit={createNewFolder}>
+            <form method='POST' onSubmit={(e) => createNewFolder(e)}>
               <input
                 type='text'
                 id='create-folder'
                 placeholder='Name of new folder'
+                value={newFolderName}
+                onChange={(e) => handleInputChange(e)}
                 required
               />
 
-              <button type='submit'>Create</button>
+              <button>Create</button>
               <button type='button' onClick={handleCreatingFolderInput}>
                 Cancel
               </button>
+              {errorMessage ? errorMessage.map((err) => err.msg) : null}
             </form>
           ) : null}
           <ul>
