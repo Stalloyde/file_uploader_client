@@ -7,17 +7,21 @@ function Layout() {
 
   useEffect(() => {
     async function getAllFiles() {
-      const response = await fetch('http://localhost:3000/files', {
-        credentials: 'include',
-      });
-      if (response.status === 401) navigate('/login');
-      if (!response.ok)
-        throw new Error(
-          `This is an HTTP error: The status is ${response.status}`,
-        );
+      try {
+        const response = await fetch('http://localhost:3000/files', {
+          credentials: 'include',
+        });
+        if (response.status === 401) navigate('/login');
+        if (!response.ok)
+          throw new Error(
+            `This is an HTTP error: The status is ${response.status}`,
+          );
 
-      const responseData = await response.json();
-      setAllFiles(responseData);
+        const responseData = await response.json();
+        setAllFiles(responseData);
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     getAllFiles();
@@ -26,7 +30,7 @@ function Layout() {
   return (
     <>
       <main>
-        <h2>Folders {'>'} All Files</h2>
+        <h2>Folders {'>'} All Folders</h2>
         <button>Upload New File</button>
 
         <ul>
