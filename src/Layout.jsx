@@ -1,17 +1,23 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
 import CreateNewFolder from './CreateNewFolder';
+import EditFolder from './EditFolder';
 
 function Layout() {
   const [allFolders, setAllFolders] = useState([]);
-  const [isCreatingFolder, setIsCreatingFolder] = useState(false);
-  const [isEditingFolder, setIsEditingFolder] = useState(false);
+  const [targetInput, setTargetInput] = useState('');
   const [errorMessage, setErrorMessage] = useState([]);
 
   const navigate = useNavigate();
 
-  function handleCreatingFolderInput() {
-    setIsCreatingFolder(!isCreatingFolder);
+  function handleFolderInput(e) {
+    if (e.target.id === 'create-folder') {
+      setTargetInput(e.target.id);
+    } else if (e.target.id) {
+      setTargetInput(Number(e.target.id));
+    } else {
+      setTargetInput('');
+    }
     setErrorMessage('');
   }
 
@@ -43,15 +49,17 @@ function Layout() {
         <h1>File Uploader</h1>
         <div>
           <h2>Folders</h2>
-          <button onClick={handleCreatingFolderInput}>Create New Folder</button>
-          {isCreatingFolder ? (
+          <button id='create-folder' onClick={(e) => handleFolderInput(e)}>
+            Create New Folder
+          </button>
+          {targetInput === 'create-folder' ? (
             <CreateNewFolder
-              isCreatingFolder={isCreatingFolder}
-              setIsCreatingFolder={setIsCreatingFolder}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
               getAllFolders={getAllFolders}
-              handleCreatingFolderInput={handleCreatingFolderInput}
+              targetInput={targetInput}
+              setTargetInput={setTargetInput}
+              handleFolderInput={handleFolderInput}
             />
           ) : null}
           <ul>
@@ -60,28 +68,26 @@ function Layout() {
             </li>
             {allFolders.map((folder) => (
               <li key={folder.id} id={folder.id}>
-                {isEditingFolder ? (
-                  <form method='POST' onSubmit={(e) => editFolder(e)}>
-                    <input
-                      type='text'
-                      id='edit-folder'
-                      placeholder='New name of folder'
-                      value={editValue}
-                      onChange={(e) => handleInputChange(e)}
-                      required
-                    />
-
-                    <button>Save</button>
-                    <button type='button' onClick={handleEditingFolderInput}>
-                      Cancel
-                    </button>
-                    {errorMessage ? errorMessage.map((err) => err.msg) : null}
-                  </form>
+                {targetInput === folder.id ? (
+                  <EditFolder
+                    errorMessage={errorMessage}
+                    setErrorMessage={setErrorMessage}
+                    getAllFolders={getAllFolders}
+                    allFolders={allFolders}
+                    targetInput={targetInput}
+                    handleFolderInput={handleFolderInput}
+                  />
                 ) : (
-                  <Link to={`/folder/${folder.id}`}>{folder.folderName}</Link>
+                  <>
+                    <Link to={`/folder/${folder.id}`}>{folder.folderName}</Link>
+                    <button
+                      id={folder.id}
+                      onClick={(e) => handleFolderInput(e)}>
+                      Edit
+                    </button>
+                    <button>Delete</button>
+                  </>
                 )}
-                <button onClick={() => setIsEditingFolder(true)}>Edit</button>
-                <button>Delete</button>
               </li>
             ))}
           </ul>

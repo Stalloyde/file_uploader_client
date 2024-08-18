@@ -1,38 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-CreateNewFolder.propTypes = {
-  setTargetInput: PropTypes.func,
+EditFolder.propTypes = {
   errorMessage: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   setErrorMessage: PropTypes.func,
   getAllFolders: PropTypes.func,
+  allFolders: PropTypes.array,
+  targetInput: PropTypes.number,
   handleFolderInput: PropTypes.func,
 };
 
-function CreateNewFolder({
-  setTargetInput,
+function EditFolder({
   errorMessage,
   setErrorMessage,
   getAllFolders,
+  allFolders,
+  targetInput,
   handleFolderInput,
 }) {
   const [newFolderName, setNewFolderName] = useState('');
-
   const navigate = useNavigate();
+
+  const targetFolder = allFolders.find((folder) => folder.id === targetInput);
+
+  useEffect(() => {
+    setNewFolderName(targetFolder.folderName);
+  }, []);
 
   function handleInputChange(e) {
     setNewFolderName(e.target.value);
   }
 
-  async function createNewFolder(e) {
+  async function EditFolder(e) {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/folders/create', {
+      const response = await fetch('http://localhost:3000/folders/edit', {
         headers: {
           'Content-Type': 'application/json',
         },
-        method: 'POST',
+        method: 'PUT',
         credentials: 'include',
         body: JSON.stringify({ newFolderName }),
       });
@@ -47,7 +54,6 @@ function CreateNewFolder({
       if (responseData.errors) {
         setErrorMessage(responseData.errors);
       } else {
-        setTargetInput('');
         getAllFolders();
         setErrorMessage('');
       }
@@ -57,7 +63,7 @@ function CreateNewFolder({
   }
 
   return (
-    <form method='POST' onSubmit={(e) => createNewFolder(e)}>
+    <form method='POST' onSubmit={(e) => EditFolder(e)}>
       <input
         type='text'
         id='create-folder'
@@ -67,8 +73,8 @@ function CreateNewFolder({
         required
       />
 
-      <button>Create</button>
-      <button type='button' onClick={handleFolderInput}>
+      <button>Save</button>
+      <button type='button' onClick={(e) => handleFolderInput(e)}>
         Cancel
       </button>
       {errorMessage ? errorMessage.map((err) => err.msg) : null}
@@ -76,4 +82,4 @@ function CreateNewFolder({
   );
 }
 
-export default CreateNewFolder;
+export default EditFolder;
