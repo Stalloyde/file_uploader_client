@@ -3,20 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 CreateNewFolder.propTypes = {
-  setTargetInput: PropTypes.func,
   errorMessage: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   setErrorMessage: PropTypes.func,
   getAllFolders: PropTypes.func,
+  handleInputStates: PropTypes.func,
 };
 
 function CreateNewFolder({
-  setTargetInput,
   errorMessage,
   setErrorMessage,
   getAllFolders,
+  handleInputStates,
 }) {
   const [newFolderName, setNewFolderName] = useState('');
-
   const navigate = useNavigate();
 
   function handleInputChange(e) {
@@ -45,9 +44,8 @@ function CreateNewFolder({
       if (responseData.errors) {
         setErrorMessage(responseData.errors);
       } else {
-        setTargetInput('');
         getAllFolders();
-        setErrorMessage('');
+        handleInputStates(e);
       }
     } catch (err) {
       console.error(err);
@@ -66,7 +64,7 @@ function CreateNewFolder({
       />
 
       <button>Create</button>
-      <button type='button' onClick={() => setTargetInput()}>
+      <button type='button' onClick={(e) => handleInputStates(e)}>
         Cancel
       </button>
       {errorMessage ? errorMessage.map((err) => err.msg) : null}

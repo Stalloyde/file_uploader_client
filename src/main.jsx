@@ -6,9 +6,9 @@ import {
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import Home from './Home.jsx';
-import Folder from './Folder.jsx';
-import File from './File.jsx';
-import Layout from './Layout.jsx';
+import Folder from './TargetFolder.jsx';
+import File from './TargetFile.jsx';
+import Layout from './Left/Layout.jsx';
 import Login from './Login.jsx';
 import Signup from './Signup.jsx';
 import './index.css';

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
+import UploadNewFile from './UploadNewFile';
 
 function Folder() {
   const [filesInTargetFolder, setFilesInTargetFolder] = useState([]);
@@ -41,10 +42,7 @@ function Folder() {
           Folders {'>'} {targetFolder.folderName}
         </h2>
       </div>
-      <div>
-        <label htmlFor='upload-file'>Upload New File</label>
-        <input type='file' id='upload-file'></input>
-      </div>
+      <UploadNewFile />
       <ul>
         {filesInTargetFolder.map((file) => (
           <li key={file.id} id={file.id}>

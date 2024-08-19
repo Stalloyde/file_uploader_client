@@ -8,7 +8,7 @@ EditFolder.propTypes = {
   getAllFolders: PropTypes.func,
   allFolders: PropTypes.array,
   targetInput: PropTypes.number,
-  setTargetInput: PropTypes.func,
+  handleInputStates: PropTypes.func,
 };
 
 function EditFolder({
@@ -17,7 +17,7 @@ function EditFolder({
   getAllFolders,
   allFolders,
   targetInput,
-  setTargetInput,
+  handleInputStates,
 }) {
   const [newFolderName, setNewFolderName] = useState('');
   const navigate = useNavigate();
@@ -53,10 +53,8 @@ function EditFolder({
       if (responseData.errors) {
         setErrorMessage(responseData.errors);
       } else {
-        console.log(responseData);
         getAllFolders();
-        setErrorMessage('');
-        setTargetInput();
+        handleInputStates(e);
       }
     } catch (err) {
       console.error(err);
@@ -75,7 +73,7 @@ function EditFolder({
       />
 
       <button>Save</button>
-      <button type='button' onClick={(e) => setTargetInput(e.target.id)}>
+      <button type='button' onClick={(e) => handleInputStates(e)}>
         Cancel
       </button>
       {errorMessage ? errorMessage.map((err) => err.msg) : null}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import UploadNewFile from './UploadNewFile';
 
 function Layout() {
   const [allFiles, setAllFiles] = useState([]);
@@ -31,8 +32,7 @@ function Layout() {
     <>
       <main>
         <h2>Folders {'>'} All Folders</h2>
-        <button>Upload New File</button>
-
+        <UploadNewFile />
         <ul>
           {allFiles.map((file) => (
             <li key={file.id} id={file.id}>

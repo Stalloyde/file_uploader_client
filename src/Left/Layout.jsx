@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { Outlet, useNavigate, Link } from 'react-router-dom';
 import CreateNewFolder from './CreateNewFolder';
 import EditFolder from './EditFolder';
+import DeleteFolderModal from './DeleteFolderModal.';
 
 function Layout() {
   const [allFolders, setAllFolders] = useState([]);
   const [targetInput, setTargetInput] = useState('');
   const [errorMessage, setErrorMessage] = useState([]);
+  const [isDeletingFolder, setIsDeletingFolder] = useState(false);
 
   const navigate = useNavigate();
 
@@ -32,27 +34,42 @@ function Layout() {
     getAllFolders();
   }, []);
 
+  function handleInputStates(e) {
+    if (e.target.id === 'create-folder') {
+      setTargetInput('create-folder');
+    } else if (e.target.id) {
+      setTargetInput(Number(e.target.id));
+    } else {
+      setTargetInput();
+    }
+    setErrorMessage('');
+  }
+
   return (
     <>
       <section>
+        {isDeletingFolder ? (
+          <DeleteFolderModal
+            getAllFolders={getAllFolders}
+            allFolders={allFolders}
+            targetInput={targetInput}
+            setTargetInput={setTargetInput}
+            setIsDeletingFolder={setIsDeletingFolder}
+            handleInputStates={handleInputStates}
+          />
+        ) : null}
         <h1>File Uploader</h1>
         <div>
           <h2>Folders</h2>
-          <button
-            id='create-folder'
-            onClick={() => {
-              setTargetInput('create-folder');
-              setErrorMessage();
-            }}>
+          <button id='create-folder' onClick={(e) => handleInputStates(e)}>
             Create New Folder
           </button>
-          {targetInput === 'create-folder' ? (
+          {!isDeletingFolder && targetInput === 'create-folder' ? (
             <CreateNewFolder
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
               getAllFolders={getAllFolders}
-              targetInput={targetInput}
-              setTargetInput={setTargetInput}
+              handleInputStates={handleInputStates}
             />
           ) : null}
           <ul>
@@ -61,27 +78,31 @@ function Layout() {
             </li>
             {allFolders.map((folder) => (
               <li key={folder.id} id={folder.id}>
-                {targetInput === folder.id ? (
+                {!isDeletingFolder && targetInput === folder.id ? (
                   <EditFolder
                     errorMessage={errorMessage}
                     setErrorMessage={setErrorMessage}
                     getAllFolders={getAllFolders}
                     allFolders={allFolders}
                     targetInput={targetInput}
-                    setTargetInput={setTargetInput}
+                    handleInputStates={handleInputStates}
                   />
                 ) : (
                   <>
                     <Link to={`/folder/${folder.id}`}>{folder.folderName}</Link>
                     <button
                       id={folder.id}
-                      onClick={(e) => {
-                        setTargetInput(Number(e.target.id));
-                        setErrorMessage();
-                      }}>
+                      onClick={(e) => handleInputStates(e)}>
                       Edit
                     </button>
-                    <button>Delete</button>
+                    <button
+                      id={folder.id}
+                      onClick={(e) => {
+                        handleInputStates(e);
+                        setIsDeletingFolder(true);
+                      }}>
+                      Delete
+                    </button>
                   </>
                 )}
               </li>
