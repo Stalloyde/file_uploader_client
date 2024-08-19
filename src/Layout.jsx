@@ -40,7 +40,10 @@ function Layout() {
           <h2>Folders</h2>
           <button
             id='create-folder'
-            onClick={() => setTargetInput('create-folder')}>
+            onClick={() => {
+              setTargetInput('create-folder');
+              setErrorMessage();
+            }}>
             Create New Folder
           </button>
           {targetInput === 'create-folder' ? (
@@ -72,7 +75,10 @@ function Layout() {
                     <Link to={`/folder/${folder.id}`}>{folder.folderName}</Link>
                     <button
                       id={folder.id}
-                      onClick={(e) => setTargetInput(Number(e.target.id))}>
+                      onClick={(e) => {
+                        setTargetInput(Number(e.target.id));
+                        setErrorMessage();
+                      }}>
                       Edit
                     </button>
                     <button>Delete</button>
