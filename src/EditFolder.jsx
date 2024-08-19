@@ -8,7 +8,7 @@ EditFolder.propTypes = {
   getAllFolders: PropTypes.func,
   allFolders: PropTypes.array,
   targetInput: PropTypes.number,
-  handleFolderInput: PropTypes.func,
+  setTargetInput: PropTypes.func,
 };
 
 function EditFolder({
@@ -17,13 +17,12 @@ function EditFolder({
   getAllFolders,
   allFolders,
   targetInput,
-  handleFolderInput,
+  setTargetInput,
 }) {
   const [newFolderName, setNewFolderName] = useState('');
   const navigate = useNavigate();
 
   const targetFolder = allFolders.find((folder) => folder.id === targetInput);
-
   useEffect(() => {
     setNewFolderName(targetFolder.folderName);
   }, []);
@@ -41,7 +40,7 @@ function EditFolder({
         },
         method: 'PUT',
         credentials: 'include',
-        body: JSON.stringify({ newFolderName }),
+        body: JSON.stringify({ targetFolder, newFolderName }),
       });
       if (response.status === 401) navigate('/login');
       if (!response.ok)
@@ -54,8 +53,10 @@ function EditFolder({
       if (responseData.errors) {
         setErrorMessage(responseData.errors);
       } else {
+        console.log(responseData);
         getAllFolders();
         setErrorMessage('');
+        setTargetInput();
       }
     } catch (err) {
       console.error(err);
@@ -74,7 +75,7 @@ function EditFolder({
       />
 
       <button>Save</button>
-      <button type='button' onClick={(e) => handleFolderInput(e)}>
+      <button type='button' onClick={(e) => setTargetInput(e.target.id)}>
         Cancel
       </button>
       {errorMessage ? errorMessage.map((err) => err.msg) : null}

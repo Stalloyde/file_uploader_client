@@ -10,17 +10,6 @@ function Layout() {
 
   const navigate = useNavigate();
 
-  function handleFolderInput(e) {
-    if (e.target.id === 'create-folder') {
-      setTargetInput(e.target.id);
-    } else if (e.target.id) {
-      setTargetInput(Number(e.target.id));
-    } else {
-      setTargetInput('');
-    }
-    setErrorMessage('');
-  }
-
   async function getAllFolders() {
     try {
       const response = await fetch('http://localhost:3000/folders', {
@@ -49,7 +38,9 @@ function Layout() {
         <h1>File Uploader</h1>
         <div>
           <h2>Folders</h2>
-          <button id='create-folder' onClick={(e) => handleFolderInput(e)}>
+          <button
+            id='create-folder'
+            onClick={() => setTargetInput('create-folder')}>
             Create New Folder
           </button>
           {targetInput === 'create-folder' ? (
@@ -59,7 +50,6 @@ function Layout() {
               getAllFolders={getAllFolders}
               targetInput={targetInput}
               setTargetInput={setTargetInput}
-              handleFolderInput={handleFolderInput}
             />
           ) : null}
           <ul>
@@ -75,14 +65,14 @@ function Layout() {
                     getAllFolders={getAllFolders}
                     allFolders={allFolders}
                     targetInput={targetInput}
-                    handleFolderInput={handleFolderInput}
+                    setTargetInput={setTargetInput}
                   />
                 ) : (
                   <>
                     <Link to={`/folder/${folder.id}`}>{folder.folderName}</Link>
                     <button
                       id={folder.id}
-                      onClick={(e) => handleFolderInput(e)}>
+                      onClick={(e) => setTargetInput(Number(e.target.id))}>
                       Edit
                     </button>
                     <button>Delete</button>

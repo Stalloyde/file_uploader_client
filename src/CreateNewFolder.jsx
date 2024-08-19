@@ -7,7 +7,6 @@ CreateNewFolder.propTypes = {
   errorMessage: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   setErrorMessage: PropTypes.func,
   getAllFolders: PropTypes.func,
-  handleFolderInput: PropTypes.func,
 };
 
 function CreateNewFolder({
@@ -15,7 +14,6 @@ function CreateNewFolder({
   errorMessage,
   setErrorMessage,
   getAllFolders,
-  handleFolderInput,
 }) {
   const [newFolderName, setNewFolderName] = useState('');
 
@@ -68,7 +66,7 @@ function CreateNewFolder({
       />
 
       <button>Create</button>
-      <button type='button' onClick={handleFolderInput}>
+      <button type='button' onClick={() => setTargetInput()}>
         Cancel
       </button>
       {errorMessage ? errorMessage.map((err) => err.msg) : null}
