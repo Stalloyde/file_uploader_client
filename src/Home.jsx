@@ -32,7 +32,6 @@ function Layout() {
     <>
       <main>
         <h2>Folders {'>'} All Folders</h2>
-        <UploadNewFile />
         <ul>
           {allFiles.map((file) => (
             <li key={file.id} id={file.id}>
