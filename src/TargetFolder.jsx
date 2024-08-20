@@ -9,29 +9,30 @@ function Folder() {
   const navigate = useNavigate();
   const { folderId } = useParams();
 
-  useEffect(() => {
-    async function getTargetFolderAndFiles() {
-      try {
-        const response = await fetch(
-          `http://localhost:3000/folders/${folderId}`,
-          {
-            credentials: 'include',
-          },
+  async function getTargetFolderAndFiles() {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/folders/${folderId}`,
+        {
+          credentials: 'include',
+        },
+      );
+      if (response.status === 401) navigate('/login');
+      if (!response.ok)
+        throw new Error(
+          `This is an HTTP error: The status is ${response.status}`,
         );
-        if (response.status === 401) navigate('/login');
-        if (!response.ok)
-          throw new Error(
-            `This is an HTTP error: The status is ${response.status}`,
-          );
 
-        const responseData = await response.json();
+      const responseData = await response.json();
 
-        setFilesInTargetFolder(responseData.filesInTargetFolder);
-        setTargetFolder(responseData.targetFolder);
-      } catch (err) {
-        console.error(err);
-      }
+      setFilesInTargetFolder(responseData.filesInTargetFolder);
+      setTargetFolder(responseData.targetFolder);
+    } catch (err) {
+      console.error(err);
     }
+  }
+
+  useEffect(() => {
     getTargetFolderAndFiles();
   }, [folderId]);
 
@@ -42,7 +43,7 @@ function Folder() {
           Folders {'>'} {targetFolder.folderName}
         </h2>
       </div>
-      <UploadNewFile />
+      <UploadNewFile getTargetFolderAndFiles={getTargetFolderAndFiles} />
       <ul>
         {filesInTargetFolder.map((file) => (
           <li key={file.id} id={file.id}>
