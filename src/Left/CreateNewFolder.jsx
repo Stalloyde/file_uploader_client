@@ -46,6 +46,7 @@ function CreateNewFolder({
       } else {
         getAllFolders();
         handleInputStates(e);
+        navigate(`/folder/${responseData.id}`);
       }
     } catch (err) {
       console.error(err);
