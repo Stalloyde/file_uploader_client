@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import DeleteFileModal from './DeleteFileModal.';
 
 function File() {
   const [targetFile, setTargetFile] = useState({});
   const [folderOfTargetFile, setFolderOfTargetFile] = useState({});
+  const [isDeletingFile, setIsDeletingFile] = useState();
 
   const navigate = useNavigate();
   const { fileId } = useParams();
@@ -33,8 +35,20 @@ function File() {
   return (
     <>
       <h2>
-        Folders {'>'} {folderOfTargetFile.folderName}
+        Folders {'>'}{' '}
+        <Link to={`/folder/${folderOfTargetFile.id}`}>
+          {folderOfTargetFile.folderName}
+        </Link>
       </h2>
+      {isDeletingFile ? (
+        <DeleteFileModal
+          fileId={fileId}
+          targetFile={targetFile}
+          isDeletingFile={isDeletingFile}
+          setIsDeletingFile={setIsDeletingFile}
+          folderOfTargetFile={folderOfTargetFile}
+        />
+      ) : null}
       {targetFile.user && (
         <>
           <h3>{targetFile.fileName}</h3>
@@ -44,7 +58,13 @@ function File() {
           <button>Download File</button>
           {/* link the button download to pathname? */}
           <button>Edit File</button>
-          <button>Delete File</button>
+          <button
+            type='button'
+            onClick={() => {
+              setIsDeletingFile(true);
+            }}>
+            Delete File
+          </button>
         </>
       )}
     </>
