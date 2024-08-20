@@ -6,8 +6,8 @@ import {
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import Home from './Home.jsx';
-import Folder from './TargetFolder.jsx';
-import File from './TargetFile.jsx';
+import TargetFolder from './TargetFolder.jsx';
+import TargetFile from './TargetFile.jsx';
 import Layout from './Left/Layout.jsx';
 import Login from './Login.jsx';
 import Signup from './Signup.jsx';
@@ -25,15 +25,15 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       {
         path: 'folder/:folderId',
-        element: <Folder />,
+        element: <TargetFolder />,
       },
       {
         path: 'folder/:folderId/:fileId',
-        element: <File />,
+        element: <TargetFile />,
       },
       {
         path: 'file/:fileId',
-        element: <File />,
+        element: <TargetFile />,
       },
     ],
   },
