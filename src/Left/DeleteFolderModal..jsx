@@ -24,7 +24,7 @@ function DeleteFolderModal({
   const navigate = useNavigate();
   const targetFolder = allFolders.find((folder) => folder.id === targetInput);
 
-  async function deleteContact(e) {
+  async function deleteFolder(e) {
     try {
       const response = await fetch('http://localhost:3000/folders/delete', {
         headers: {
@@ -72,7 +72,7 @@ function DeleteFolderModal({
 
           <div>
             <button onClick={(e) => handleClose(e)}>Cancel</button>
-            <button onClick={(e) => deleteContact(e)}>Yes</button>
+            <button onClick={(e) => deleteFolder(e)}>Yes</button>
           </div>
         </DialogContent>
       </div>
