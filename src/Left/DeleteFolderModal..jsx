@@ -44,6 +44,7 @@ function DeleteFolderModal({
       getAllFolders();
       handleInputStates(e);
       setIsDeletingFolder(false);
+      navigate('/');
     } catch (err) {
       console.error(err);
     }
