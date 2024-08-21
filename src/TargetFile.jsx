@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import DeleteFileModal from './DeleteFileModal.';
+import EditFile from './EditFile';
 
 function File() {
   const [targetFile, setTargetFile] = useState({});
   const [folderOfTargetFile, setFolderOfTargetFile] = useState({});
-  const [isDeletingFile, setIsDeletingFile] = useState();
+  const [isDeletingFile, setIsDeletingFile] = useState(false);
+  const [isEditingFile, setIsEditingFile] = useState(false);
 
   const navigate = useNavigate();
   const { fileId } = useParams();
@@ -13,7 +15,7 @@ function File() {
   useEffect(() => {
     async function getTargetFile() {
       try {
-        const response = await fetch(`http://localhost:3000/files/${fileId}`, {
+        const response = await fetch(`http://localhost:3000/file/${fileId}`, {
           credentials: 'include',
         });
         if (response.status === 401) navigate('/login');
@@ -30,7 +32,11 @@ function File() {
       }
     }
     getTargetFile();
-  }, [fileId]);
+  }, [fileId, isEditingFile]);
+
+  function handleInput() {
+    setIsEditingFile(!isEditingFile);
+  }
 
   return (
     <>
@@ -49,15 +55,21 @@ function File() {
           folderOfTargetFile={folderOfTargetFile}
         />
       ) : null}
-      {targetFile.user && (
+      {targetFile.user && isEditingFile ? (
+        <EditFile
+          handleInput={handleInput}
+          fileId={fileId}
+          targetFile={targetFile}
+        />
+      ) : (
         <>
           <h3>{targetFile.fileName}</h3>
-          <p>
-            Created by: {targetFile.user.username} on {targetFile.createdAt}
-          </p>
+          <p>Created on {targetFile.createdAt}</p>
           <button>Download File</button>
           {/* link the button download to pathname? */}
-          <button>Edit File</button>
+          <button type='button' onClick={handleInput}>
+            Edit File
+          </button>
           <button
             type='button'
             onClick={() => {
