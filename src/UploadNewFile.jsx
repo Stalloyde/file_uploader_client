@@ -66,6 +66,7 @@ function UploadNewFile({ getTargetFolderAndFiles }) {
       <input
         type='file'
         id='upload-file'
+        accept='.jpg,.jpeg,.png'
         onChange={(e) => {
           setErrorMessage();
           setNewFile(e.target.files[0]);

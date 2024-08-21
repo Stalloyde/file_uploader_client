@@ -56,17 +56,26 @@ function File() {
         />
       ) : null}
       {targetFile.user && isEditingFile ? (
-        <EditFile
-          handleInput={handleInput}
-          fileId={fileId}
-          targetFile={targetFile}
-        />
+        <>
+          <EditFile
+            handleInput={handleInput}
+            fileId={fileId}
+            targetFile={targetFile}
+          />
+          <img src={targetFile.filePath} alt='target-file' height='200px' />
+        </>
       ) : (
         <>
           <h3>{targetFile.fileName}</h3>
           <p>Created on {targetFile.createdAt}</p>
-          <button>Download File</button>
-          {/* link the button download to pathname? */}
+          <button>
+            <a
+              href={`${targetFile.filePath}?fl_attachment=${targetFile.fileName}`}
+              target='_blank'
+              rel='noreferrer'>
+              Download File
+            </a>
+          </button>
           <button type='button' onClick={handleInput}>
             Edit File
           </button>
@@ -77,6 +86,7 @@ function File() {
             }}>
             Delete File
           </button>
+          <img src={targetFile.filePath} alt='target-file' height='200px' />
         </>
       )}
     </>
