@@ -50,7 +50,6 @@ function File() {
         <DeleteFileModal
           fileId={fileId}
           targetFile={targetFile}
-          isDeletingFile={isDeletingFile}
           setIsDeletingFile={setIsDeletingFile}
           folderOfTargetFile={folderOfTargetFile}
         />
