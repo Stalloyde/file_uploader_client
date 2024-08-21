@@ -56,6 +56,7 @@ function EditFolder({
         getAllFolders();
         handleInputStates(e);
         navigate(`/folder/${targetFolder.id}`);
+        navigate(0); // Force a remount
       }
     } catch (err) {
       console.error(err);

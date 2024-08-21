@@ -45,6 +45,7 @@ function DeleteFolderModal({
       handleInputStates(e);
       setIsDeletingFolder(false);
       navigate('/');
+      navigate(0); // Force a remount
     } catch (err) {
       console.error(err);
     }
