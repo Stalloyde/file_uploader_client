@@ -31,7 +31,7 @@ function UploadNewFile({ getTargetFolderAndFiles }) {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/folders/${folderId}/create`,
+        `http://localhost:3000/folder/${folderId}/create`,
         {
           method: 'POST',
           credentials: 'include',

@@ -25,7 +25,7 @@ function CreateNewFolder({
   async function createNewFolder(e) {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/folders/create', {
+      const response = await fetch('http://localhost:3000/folder/create', {
         headers: {
           'Content-Type': 'application/json',
         },

@@ -9,7 +9,7 @@ function Layout() {
   useEffect(() => {
     async function getAllFiles() {
       try {
-        const response = await fetch('http://localhost:3000/files', {
+        const response = await fetch('http://localhost:3000/file', {
           credentials: 'include',
         });
         if (response.status === 401) navigate('/login');

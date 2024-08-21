@@ -14,7 +14,7 @@ function Layout() {
 
   async function getAllFolders() {
     try {
-      const response = await fetch('http://localhost:3000/folders', {
+      const response = await fetch('http://localhost:3000/folder', {
         credentials: 'include',
       });
       if (response.status === 401) navigate('/login');

@@ -34,7 +34,7 @@ function EditFolder({
   async function EditFolder(e) {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/folders/edit', {
+      const response = await fetch('http://localhost:3000/folder/edit', {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -55,6 +55,7 @@ function EditFolder({
       } else {
         getAllFolders();
         handleInputStates(e);
+        navigate(`/folder/${targetFolder.id}`);
       }
     } catch (err) {
       console.error(err);

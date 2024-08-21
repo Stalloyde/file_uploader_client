@@ -26,7 +26,7 @@ function DeleteFolderModal({
 
   async function deleteFolder(e) {
     try {
-      const response = await fetch('http://localhost:3000/folders/delete', {
+      const response = await fetch('http://localhost:3000/folder/delete', {
         headers: {
           'Content-Type': 'application/json',
         },
