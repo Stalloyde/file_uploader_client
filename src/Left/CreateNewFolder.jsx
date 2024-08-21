@@ -25,14 +25,17 @@ function CreateNewFolder({
   async function createNewFolder(e) {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/folder/create', {
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'https://stalloyde-file-uploader-api.adaptable.app/folder/create',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+          credentials: 'include',
+          body: JSON.stringify({ newFolderName }),
         },
-        method: 'POST',
-        credentials: 'include',
-        body: JSON.stringify({ newFolderName }),
-      });
+      );
       if (response.status === 401) navigate('/login');
       if (!response.ok)
         throw new Error(

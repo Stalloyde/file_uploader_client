@@ -15,9 +15,12 @@ function File() {
   useEffect(() => {
     async function getTargetFile() {
       try {
-        const response = await fetch(`http://localhost:3000/file/${fileId}`, {
-          credentials: 'include',
-        });
+        const response = await fetch(
+          `https://stalloyde-file-uploader-api.adaptable.app/file/${fileId}`,
+          {
+            credentials: 'include',
+          },
+        );
         if (response.status === 401) navigate('/login');
         if (!response.ok)
           throw new Error(

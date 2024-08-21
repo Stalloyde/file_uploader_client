@@ -26,14 +26,17 @@ function DeleteFolderModal({
 
   async function deleteFolder(e) {
     try {
-      const response = await fetch('http://localhost:3000/folder/delete', {
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'https://stalloyde-file-uploader-api.adaptable.app/folder/delete',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'DELETE',
+          credentials: 'include',
+          body: JSON.stringify({ targetFolder }),
         },
-        method: 'DELETE',
-        credentials: 'include',
-        body: JSON.stringify({ targetFolder }),
-      });
+      );
       if (response.status === 401) navigate('/login');
       if (!response.ok)
         throw new Error(

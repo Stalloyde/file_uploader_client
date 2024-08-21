@@ -14,9 +14,12 @@ function Layout() {
 
   async function getAllFolders() {
     try {
-      const response = await fetch('http://localhost:3000/folder', {
-        credentials: 'include',
-      });
+      const response = await fetch(
+        'https://stalloyde-file-uploader-api.adaptable.app/folder',
+        {
+          credentials: 'include',
+        },
+      );
       if (response.status === 401) navigate('/login');
       if (!response.ok)
         throw new Error(

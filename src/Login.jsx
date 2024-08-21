@@ -20,14 +20,17 @@ function Login() {
 
     try {
       console.log('logging in');
-      const response = await fetch('http://localhost:3000/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'https://stalloyde-file-uploader-api.adaptable.app/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({ username, password }),
         },
-        credentials: 'include',
-        body: JSON.stringify({ username, password }),
-      });
+      );
       const responseData = await response.json();
       if (responseData.usernameError || responseData.passwordError) {
         setLoginError(responseData);

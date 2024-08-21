@@ -34,14 +34,17 @@ function EditFolder({
   async function EditFolder(e) {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/folder/edit', {
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        'https://stalloyde-file-uploader-api.adaptable.app/folder/edit',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'PUT',
+          credentials: 'include',
+          body: JSON.stringify({ targetFolder, newFolderName }),
         },
-        method: 'PUT',
-        credentials: 'include',
-        body: JSON.stringify({ targetFolder, newFolderName }),
-      });
+      );
       if (response.status === 401) navigate('/login');
       if (!response.ok)
         throw new Error(
