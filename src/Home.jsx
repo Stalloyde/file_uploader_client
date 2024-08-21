@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import UploadNewFile from './UploadNewFile';
 
 function Layout() {
   const [allFiles, setAllFiles] = useState([]);
