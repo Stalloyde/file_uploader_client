@@ -35,6 +35,7 @@ function DeleteFolderModal({
           method: 'DELETE',
           credentials: 'include',
           body: JSON.stringify({ targetFolder }),
+          mode: 'cors',
         },
       );
       if (response.status === 401) navigate('/login');

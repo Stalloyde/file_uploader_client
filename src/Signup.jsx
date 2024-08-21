@@ -33,6 +33,7 @@ function Signup() {
           },
           credentials: 'same-origin',
           body: JSON.stringify({ username, password, confirmPassword }),
+          mode: 'cors',
         },
       );
 

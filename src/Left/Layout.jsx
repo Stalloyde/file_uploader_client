@@ -18,6 +18,7 @@ function Layout() {
         'https://stalloyde-file-uploader-api.adaptable.app/folder',
         {
           credentials: 'include',
+          mode: 'cors',
         },
       );
       if (response.status === 401) navigate('/login');

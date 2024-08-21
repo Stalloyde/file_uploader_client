@@ -29,6 +29,7 @@ function Login() {
           },
           credentials: 'include',
           body: JSON.stringify({ username, password }),
+          mode: 'cors',
         },
       );
       const responseData = await response.json();

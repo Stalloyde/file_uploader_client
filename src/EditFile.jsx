@@ -27,6 +27,7 @@ function EditFile({ handleInput, fileId, targetFile }) {
           method: 'PUT',
           credentials: 'include',
           body: JSON.stringify({ newFileName }),
+          mode: 'cors',
         },
       );
       if (response.status === 401) navigate('/login');

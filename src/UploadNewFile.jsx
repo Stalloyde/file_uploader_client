@@ -36,6 +36,7 @@ function UploadNewFile({ getTargetFolderAndFiles }) {
           method: 'POST',
           credentials: 'include',
           body: formData,
+          mode: 'cors',
         },
       );
       if (response.status === 401) navigate('/login');

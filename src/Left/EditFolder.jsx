@@ -43,6 +43,7 @@ function EditFolder({
           method: 'PUT',
           credentials: 'include',
           body: JSON.stringify({ targetFolder, newFolderName }),
+          mode: 'cors',
         },
       );
       if (response.status === 401) navigate('/login');

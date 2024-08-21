@@ -32,6 +32,7 @@ function DeleteFileModal({
           method: 'DELETE',
           credentials: 'include',
           body: JSON.stringify({ fileId }),
+          mode: 'cors',
         },
       );
       if (response.status === 401) navigate('/login');

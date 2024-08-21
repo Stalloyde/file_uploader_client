@@ -15,6 +15,7 @@ function Folder() {
         `https://stalloyde-file-uploader-api.adaptable.app/folder/${folderId}`,
         {
           credentials: 'include',
+          mode: 'cors',
         },
       );
       if (response.status === 401) navigate('/login');
