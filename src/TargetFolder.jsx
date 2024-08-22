@@ -14,6 +14,9 @@ function Folder() {
       const response = await fetch(
         `https://stalloyde-file-uploader-api.adaptable.app/folder/${folderId}`,
         {
+          headers: {
+            'Content-Type': 'application/json',
+          },
           credentials: 'include',
           mode: 'cors',
         },

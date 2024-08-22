@@ -11,6 +11,9 @@ function Layout() {
         const response = await fetch(
           'https://stalloyde-file-uploader-api.adaptable.app/file',
           {
+            headers: {
+              'Content-Type': 'application/json',
+            },
             credentials: 'include',
             mode: 'cors',
           },

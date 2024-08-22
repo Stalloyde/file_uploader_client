@@ -34,6 +34,9 @@ function UploadNewFile({ getTargetFolderAndFiles }) {
         `https://stalloyde-file-uploader-api.adaptable.app/folder/${folderId}/create`,
         {
           method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
           credentials: 'include',
           body: formData,
           mode: 'cors',
