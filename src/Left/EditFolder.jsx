@@ -35,7 +35,7 @@ function EditFolder({
     e.preventDefault();
     try {
       const response = await fetch(
-        'https://stalloyde-file-uploader-api.adaptable.app/folder/edit',
+        'https://file-uploader-api.adaptable.app/folder/edit',
         {
           headers: {
             'Content-Type': 'application/json',

@@ -26,7 +26,7 @@ function CreateNewFolder({
     e.preventDefault();
     try {
       const response = await fetch(
-        'https://stalloyde-file-uploader-api.adaptable.app/folder/create',
+        'https://file-uploader-api.adaptable.app/folder/create',
         {
           headers: {
             'Content-Type': 'application/json',

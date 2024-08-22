@@ -12,7 +12,7 @@ function Folder() {
   async function getTargetFolderAndFiles() {
     try {
       const response = await fetch(
-        `https://stalloyde-file-uploader-api.adaptable.app/folder/${folderId}`,
+        `https://file-uploader-api.adaptable.app/folder/${folderId}`,
         {
           headers: {
             'Content-Type': 'application/json',

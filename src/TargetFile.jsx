@@ -16,7 +16,7 @@ function File() {
     async function getTargetFile() {
       try {
         const response = await fetch(
-          `https://stalloyde-file-uploader-api.adaptable.app/file/${fileId}`,
+          `https://file-uploader-api.adaptable.app/file/${fileId}`,
           {
             headers: {
               'Content-Type': 'application/json',

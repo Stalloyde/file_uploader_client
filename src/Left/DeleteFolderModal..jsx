@@ -27,7 +27,7 @@ function DeleteFolderModal({
   async function deleteFolder(e) {
     try {
       const response = await fetch(
-        'https://stalloyde-file-uploader-api.adaptable.app/folder/delete',
+        'https://file-uploader-api.adaptable.app/folder/delete',
         {
           headers: {
             'Content-Type': 'application/json',

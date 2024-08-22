@@ -21,7 +21,7 @@ function Login() {
     try {
       console.log('logging in');
       const response = await fetch(
-        'https://stalloyde-file-uploader-api.adaptable.app/login',
+        'https://file-uploader-api.adaptable.app/login',
         {
           method: 'POST',
           headers: {

@@ -9,7 +9,7 @@ function Layout() {
     async function getAllFiles() {
       try {
         const response = await fetch(
-          'https://stalloyde-file-uploader-api.adaptable.app/file',
+          'https://file-uploader-api.adaptable.app/file',
           {
             headers: {
               'Content-Type': 'application/json',

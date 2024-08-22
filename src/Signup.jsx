@@ -25,7 +25,7 @@ function Signup() {
 
     try {
       const response = await fetch(
-        'https://stalloyde-file-uploader-api.adaptable.app/signup',
+        'https://file-uploader-api.adaptable.app/signup',
         {
           method: 'POST',
           headers: {

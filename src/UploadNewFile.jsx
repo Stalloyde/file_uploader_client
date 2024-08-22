@@ -31,7 +31,7 @@ function UploadNewFile({ getTargetFolderAndFiles }) {
 
     try {
       const response = await fetch(
-        `https://stalloyde-file-uploader-api.adaptable.app/folder/${folderId}/create`,
+        `https://file-uploader-api.adaptable.app/folder/${folderId}/create`,
         {
           method: 'POST',
           headers: {

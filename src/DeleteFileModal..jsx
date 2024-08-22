@@ -24,7 +24,7 @@ function DeleteFileModal({
   async function deleteFile() {
     try {
       const response = await fetch(
-        `https://stalloyde-file-uploader-api.adaptable.app/file/${fileId}/delete`,
+        `https://file-uploader-api.adaptable.app/file/${fileId}/delete`,
         {
           headers: {
             'Content-Type': 'application/json',

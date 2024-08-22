@@ -19,7 +19,7 @@ function EditFile({ handleInput, fileId, targetFile }) {
 
     try {
       const response = await fetch(
-        `https://stalloyde-file-uploader-api.adaptable.app/file/${fileId}/edit`,
+        `https://file-uploader-api.adaptable.app/file/${fileId}/edit`,
         {
           headers: {
             'Content-Type': 'application/json',

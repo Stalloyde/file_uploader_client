@@ -15,7 +15,7 @@ function Layout() {
   async function getAllFolders() {
     try {
       const response = await fetch(
-        'https://stalloyde-file-uploader-api.adaptable.app/folder',
+        'https://file-uploader-api.adaptable.app/folder',
         {
           headers: {
             'Content-Type': 'application/json',
