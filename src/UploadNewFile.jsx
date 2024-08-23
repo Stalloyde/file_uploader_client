@@ -34,9 +34,6 @@ function UploadNewFile({ getTargetFolderAndFiles }) {
         `https://file-uploader-api.adaptable.app/folder/${folderId}/create`,
         {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
           credentials: 'include',
           body: formData,
           mode: 'cors',
